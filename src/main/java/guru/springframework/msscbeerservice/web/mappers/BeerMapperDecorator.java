@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BeerMapperDecorator implements BeerMapper {
     private BeerInventoryService beerInventoryService;
-    private BeerMapper beerMapper;
+    private BeerMapper mapper;
 
     @Autowired
     public void setBeerInventoryService(BeerInventoryService beerInventoryService) {
@@ -15,19 +15,24 @@ public abstract class BeerMapperDecorator implements BeerMapper {
     }
 
     @Autowired
-    public void setBeerMapper(BeerMapper beerMapper) {
-        this.beerMapper = beerMapper;
+    public void setBeerMapper(BeerMapper mapper) {
+        this.mapper = mapper;
     }
 
     @Override
     public BeerDto beerToBeerDto(Beer beer) {
-        BeerDto dto = beerMapper.beerToBeerDto(beer);
+        return mapper.beerToBeerDto(beer);
+    }
+
+    @Override
+    public BeerDto beerToBeerDtoWithInventory(Beer beer) {
+        BeerDto dto = mapper.beerToBeerDto(beer);
         dto.setQuantityOnHand(beerInventoryService.getOnHandInventory(beer.getId()));
         return dto;
     }
 
     @Override
     public Beer beerDtoToBeer(BeerDto dto) {
-        return beerMapper.beerDtoToBeer(dto);
+        return mapper.beerDtoToBeer(dto);
     }
 }
