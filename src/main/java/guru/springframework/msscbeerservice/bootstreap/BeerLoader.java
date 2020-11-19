@@ -5,11 +5,13 @@ import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
-//@Component
+@Profile("localmysql")
+@Component
 @AllArgsConstructor
 public class BeerLoader implements CommandLineRunner {
 
@@ -21,7 +23,9 @@ public class BeerLoader implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-        loadBeerObjects();
+        if(beerRepository.count() ==0 ) {
+            loadBeerObjects();
+        }
     }
 
     private void loadBeerObjects() {
