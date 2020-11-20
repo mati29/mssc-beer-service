@@ -1,10 +1,9 @@
 package guru.springframework.msscbeerservice.services.brewing;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbeerservice.domain.Beer;
-import guru.springframework.msscbeerservice.events.BrewBeerEvent;
-import guru.springframework.msscbeerservice.events.NewInventoryEvent;
+import guru.sfg.common.events.BrewBeerEvent;
+import guru.sfg.common.events.NewInventoryEvent;
 import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ public class BrewBeerListener {
 
     private final BeerRepository beerRepository;
     private final JmsTemplate jmsTemplate;
-    private final ObjectMapper objectMapper;
 
     @Transactional
     @JmsListener(destination = BREWING_REQUEST_QUEUE)
